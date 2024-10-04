@@ -8,6 +8,7 @@ from telegram.ext import CommandHandler
 from telegram.ext import ContextTypes
 from telegram.ext import filters
 from telegram.ext import MessageHandler
+from calibre import add_ebook_to_calibre
 
 # Telegram bot token
 load_dotenv()
@@ -45,6 +46,15 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     chat_id=update.effective_chat.id,
                     text=f"Forwarded document '{document.file_name}' saved locally.",
                 )
+                try:
+                    save_book = add_ebook_to_calibre(save_path)
+                    await context.bot.send_message(
+                        chat_id=update.effective_chat.id,
+                        text=f"{save_book}",
+                    )
+                except Exception as e:
+                    logger.error(e)
+
             else:
                 await context.bot.send_message(
                     chat_id=update.effective_chat.id,

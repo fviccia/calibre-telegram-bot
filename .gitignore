@@ -156,5 +156,5 @@ cython_debug/
 
 
 # Dont upload served files
-/files
+/calibre-bot-temp-files
 access_token.json
