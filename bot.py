@@ -13,6 +13,10 @@ from calibre import add_ebook_to_calibre
 # Telegram bot token
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
+CALIBRE_ADRESS = os.getenv("CALIBRE_ADRESS")
+CALIBRE_USER = os.getenv("CALIBRE_USER")
+CALIBRE_PWD = os.getenv("CALIBRE_PWD")
+
 
 # Directory to save forwarded messages
 SAVE_DIR = "calibre-bot-temp-files"
@@ -34,20 +38,23 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         if update.message.api_kwargs["forward_date"] is not None:
-            # This message is forwarded
             if update.message.document:
                 # Handle forwarded document
                 document = update.message.document
                 file = await context.bot.get_file(document.file_id)
                 save_path = os.path.join(SAVE_DIR, document.file_name)
+                # Save book
                 await file.download_to_drive(save_path)
 
                 await context.bot.send_message(
                     chat_id=update.effective_chat.id,
                     text=f"Forwarded document '{document.file_name}' saved locally.",
                 )
+                # Upload book to calibre
                 try:
-                    save_book = add_ebook_to_calibre(save_path)
+                    save_book = add_ebook_to_calibre(
+                        save_path, CALIBRE_ADRESS, CALIBRE_USER, CALIBRE_PWD
+                    )
                     await context.bot.send_message(
                         chat_id=update.effective_chat.id,
                         text=f"{save_book}",

@@ -1,20 +1,20 @@
 import subprocess
 
 
-def add_ebook_to_calibre(ebook_path):
+def add_ebook_to_calibre(save_path, calibre_adress, calibre_user, calibre_pwd):
     try:
         # Command to add ebook to Calibre library with specific library and authentication
         result = subprocess.run(
             [
                 "calibredb",
                 "--with-library",
-                "http://192.168.68.81:8091/",
+                calibre_adress,
                 "--username",
-                "franco",
+                calibre_user,
                 "--password",
-                "123456",
+                calibre_pwd,
                 "add",
-                ebook_path,
+                save_path,
             ],
             check=True,
             capture_output=True,
@@ -24,8 +24,3 @@ def add_ebook_to_calibre(ebook_path):
     except subprocess.CalledProcessError as e:
         print("Error:", e.stderr)
     return result.stdout
-
-
-# Path to your eBook file
-# ebook_path = "path/to/your/ebook.epub"  # Replace with the actual path to your eBook
-# add_ebook_to_calibre(ebook_path)
