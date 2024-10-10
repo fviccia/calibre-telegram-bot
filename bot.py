@@ -12,7 +12,7 @@ from calibre import add_ebook_to_calibre
 
 # Telegram bot token
 load_dotenv()
-TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("BOT_TOKEN")
 CALIBRE_ADRESS = os.getenv("CALIBRE_ADRESS")
 CALIBRE_USER = os.getenv("CALIBRE_USER")
 CALIBRE_PWD = os.getenv("CALIBRE_PWD")
