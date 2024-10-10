@@ -59,6 +59,8 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         chat_id=update.effective_chat.id,
                         text=f"{save_book}",
                     )
+                    # Delete file after upload
+                    os.remove(save_path)
                 except Exception as e:
                     logger.error(e)
 
